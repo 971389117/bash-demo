@@ -1,0 +1,8 @@
+#!/bin/sh
+# 连接本地仓库与远程仓库
+params="{'name':'$1'}"
+curl -u 971389117:aibaodaledou123 https://api.github.com/user/repos -d $params
+git remote add origin git@github.com:971389117/$1.git
+git push -u origin master
+
+echo https://github.com/971389117/$1
