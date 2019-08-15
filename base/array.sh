@@ -1,6 +1,4 @@
 
-
-
 my_array=(1 B "C" D)
 
 echo "第一个元素为: ${my_array[0]}"

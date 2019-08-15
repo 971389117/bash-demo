@@ -1,0 +1,106 @@
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+<div id="demo">
+
+  <slot-a>
+    <!-- 书写 普通 slot -->
+
+    <!-- 书写 -->
+  </slot-a>
+
+  <slot-b>
+    <!-- 书写  具名 slot-->
+
+    <!-- 书写 -->
+  </slot-b>
+
+  <slot-c>
+    <!-- 书写  作用域 slot -->
+
+    <!-- 书写 -->
+  </slot-c>
+
+  <slot-d>
+    <!-- 书写 动态插槽名-->
+
+    <!-- 书写 -->
+  </slot-d>
+
+  <slot-e>
+    <!-- 书写 独占默认插槽 -->
+
+    <!-- 书写 -->
+  </slot-e>
+
+  <slot-f>
+    <!-- 书写 插槽名缩写 -->
+
+    <!-- 书写 -->
+  </slot-f>
+
+  <slot-g>
+    <!-- 书写 作用域插槽 允许父级组件自定义部分布局-->
+
+    <!-- 书写 -->
+  </slot-g>
+</div>
+
+<script>
+Vue.component('slot-a',{
+  template:`
+   <span>
+    <!-- 书写 普通 slot -->
+
+    <!-- 书写 -->
+   </span>`
+})
+
+Vue.component('slot-b', {
+  template: `
+  <span>
+    <!-- 书写  具名 slot-->
+
+    <!-- 书写 -->
+  </span>`
+})
+Vue.component('slot-c', {
+  template:
+  `<span>
+    <!-- 书写  作用域 slot -->
+
+    <!-- 书写 -->
+  </span>`
+})
+Vue.component('slot-d', {
+
+  template: `
+  <span>
+    <!-- 书写 动态插槽名-->
+
+    <!-- 书写 -->
+  </span>`
+})
+Vue.component('slot-e', {
+  template: `
+  <span>
+    <!-- 书写 插槽名缩写 -->
+
+    <!-- 书写 -->
+  </span>`
+})
+Vue.component('slot-f', {
+  template:`
+  <span>
+    <!-- 书写 作用域插槽 允许父级组件自定义部分布局-->
+
+    <!-- 书写 -->
+  </span>`
+})
+new Vue({
+  el:'#demo',
+  data:{
+
+  },
+})
+
+</script>

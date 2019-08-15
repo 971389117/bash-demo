@@ -12,5 +12,3 @@ then
 else
    echo "没有符合的条件"
 fi
-
-

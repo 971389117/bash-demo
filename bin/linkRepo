@@ -1,8 +1,36 @@
 #!/bin/sh
 # 连接本地仓库与远程仓库
-params="{'name':'$1'}"
-curl -u 971389117:aibaodaledou123 https://api.github.com/user/repos -d $params
-git remote add origin git@github.com:971389117/$1.git
-git push -u origin master
-
-echo https://github.com/971389117/$1
+# params="https://api.github.com/user/repos -d '{\"name\":\"$1\"}'"
+createRemoteRepo() {
+    git remote remove origin
+    params="{\"name\":\"$OPTARG\"}"
+    curl -u 971389117:aibaodaledou123 https://api.github.com/user/repos -d $params
+    git init
+    git add .
+    git commit -m "$OPTARG"
+    git remote add origin git@github.com:971389117/$OPTARG.git
+    git push -u origin master
+    echo https://github.com/971389117/$OPTARG
+}
+deleteRemoteRepo() {
+    curl -u 971389117:aibaodaledou123 https://api.github.com/repos/971389117/$OPTARG -v -X DELETE
+}
+commitAndPushRepo() {
+    git add .
+    git commit -m "$OPTARG"
+    git push
+}
+helpMe(){
+    echo '-c "仓库名" :创建元层仓库',
+    echo '-d "仓库名" :删除远程仓库',
+    echo '-m "提交信息" :commit push 提交',
+}
+while getopts :c:d:m:h opt; do
+    case "$opt" in
+    c) createRemoteRepo ;;
+    d) deleteRemoteRepo ;;
+    m) commitAndPushRepo ;;
+    h) helpMe ;;
+    *) echo "Unknown option: $opt $OPTARG" ;;
+    esac
+done

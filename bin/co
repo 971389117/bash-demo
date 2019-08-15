@@ -1,0 +1,4 @@
+#!/bin/sh
+
+value=`autojump $1`
+code $value
