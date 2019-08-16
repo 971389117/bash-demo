@@ -1,0 +1,76 @@
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+<div id="demo">
+    <!-- 1.访问根组件数据,将根组件当做数据中转站 -->
+    <root-a ref='bb'></root-a>
+    <!-- 2.访问父组件 -->
+    <parent-a></parent-a>
+    <!-- 3.访问任意组件 -->
+    <ref-a></ref-a>
+    <!-- 2.依赖注入:巴士 -->
+    <inject-a></inject-a>
+</div>
+
+<script>
+    Vue.component('root-a', {
+        mounted() {
+            console.log(this.$root)
+            console.log(this.$root.foo)
+            console.log(this.$root.bar)
+            console.log(this.$root.baz)
+        },
+        template: `<span></span>`,
+
+    })
+    Vue.component('parent-a', {
+        mounted() {
+            console.log('$parent --- ', this.$parent)
+        },
+        template: `<span></span>`,
+
+    })
+    Vue.component('inject-a', {
+        mounted() {
+            console.log('$parent --- ', this.$parent)
+        },
+        inject: ['foo'],
+        template: `<span></span>`,
+
+    })
+    Vue.component('ref-a', {
+        mounted() {
+            console.log(this.$refs)
+        },
+        inject: ['foo'],
+        template: `<span><a ref="ref-a"> 我爱你老鼠</a></span>`,
+    })
+    new Vue({
+        el: '#demo',
+        data: {
+            foo: 1,
+            eventBus: new Vue()
+        },
+        computed: {
+            bar: function () {
+                return 2
+                /* ... */
+            }
+        },
+        methods: {
+            baz: function () {
+                /* ... */
+            },
+            getData() {
+                return this.foo
+            }
+        },
+        provide() {
+            return {
+                foo: this.foo
+            }
+        },
+        mounted() {
+            console.log(this.$refs)
+        }
+    })
+</script>

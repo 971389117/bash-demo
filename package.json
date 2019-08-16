@@ -1,0 +1,11 @@
+{
+  "name": "0-bash-demo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:971389117/bash-demo.git",
+  "author": "971389117 <971389117@qq.com>",
+  "license": "MIT",
+  "dependencies": {
+    "ejs": "^2.6.2"
+  }
+}

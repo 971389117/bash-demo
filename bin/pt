@@ -1,0 +1,23 @@
+#!/usr/bin/env python3
+from jinja2 import Template
+import os
+import sys
+
+# 获得命令行参数,进行目录解析
+# 读取模板目录文件,输出到当前目录文件
+# jinja2 模板引擎
+
+fileName=sys.argv[1]
+isAnswer=(True,False)[len(sys.argv)>2]
+
+currentPath=os.getcwd()
+TEMPLATE_BASE='/Users/zhengxingxing/DeskTop/git.my/0-bash-demo/template'
+templateFilePath=os.path.join(TEMPLATE_BASE,fileName)
+newFilePath=os.path.join(currentPath,fileName)
+
+with open(templateFilePath,'r') as f:
+    template = Template(f.read())
+    p=template.render(isAnswer=isAnswer)
+    print(p)
+with open(newFilePath,'w') as f:
+    f.write(p)

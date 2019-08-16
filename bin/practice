@@ -1,3 +1,0 @@
-#!/bin/sh
-
-bat "$TEMPLATE_DIR/slot.html" >> ./slot.html
