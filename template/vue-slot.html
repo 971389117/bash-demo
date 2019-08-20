@@ -5,104 +5,164 @@
   <slot-a>
     <!-- 书写 普通 slot -->
     {% if isAnswer %}
-    我爱你 a
+    我是默认插槽
     {% endif %}
     <!-- 书写 -->
   </slot-a>
 
   <slot-b>
     <!-- 书写  具名 slot-->
-
+    {% if isAnswer %}
+    <template v-slot:slot-b>我是具名插槽</template>
+    {% endif %}
     <!-- 书写 -->
   </slot-b>
 
   <slot-c>
-    <!-- 书写  作用域 slot -->
-
+    <!-- 书写  插槽名缩写 -->
+    {% if isAnswer %}
+    <template #slot-c>我是缩写 </template>
+    {% endif %}
     <!-- 书写 -->
   </slot-c>
 
   <slot-d>
     <!-- 书写 动态插槽名-->
-
+    {% if isAnswer %}
+    <template v-slot:[dynamicSlotName]>我是动态插槽名</template>
+    {% endif %}
     <!-- 书写 -->
   </slot-d>
 
   <slot-e>
-    <!-- 书写 独占默认插槽 -->
-
+    <!-- 书写   作用域 slot -->
+    {% if isAnswer %}
+    <template #slot-e="slotProps">{{slotProps}}拉的屎</template>
+    <template #slot-e-2="{vueName}">{{vueName}}拉的屎</template>
+    {% endif %}
     <!-- 书写 -->
   </slot-e>
 
-  <slot-f>
-    <!-- 书写 插槽名缩写 -->
-
+  <slot-f #slot-f="data">
+    <!-- 书写 独占默认插槽 -->
+    {% if isAnswer %}
+    我是独占默认插槽{{data}}
+    {% endif %}
     <!-- 书写 -->
   </slot-f>
 
-  <slot-g>
+  <slot-g :content='content'>
     <!-- 书写 作用域插槽 允许父级组件自定义部分布局-->
-
+    {% if isAnswer %}
+    <template #slot-g="slotProps">测试{{slotProps}}</template>
+    {% endif %}
     <!-- 书写 -->
   </slot-g>
 </div>
-
 <script>
-Vue.component('slot-a',{
-  template:`
+  Vue.component('slot-a', {
+    template: `
    <span>
     <!-- 书写 普通 slot -->
-
+    {% if isAnswer %}
+    <slot></slot>
+    {% endif %}
     <!-- 书写 -->
    </span>`
-})
+  })
 
-Vue.component('slot-b', {
-  template: `
+  Vue.component('slot-b', {
+    template: `
   <span>
     <!-- 书写  具名 slot-->
-
+    {% if isAnswer %}
+    <slot name='slot-b'></slot>
+    {% endif %}
     <!-- 书写 -->
   </span>`
-})
-Vue.component('slot-c', {
-  template:
-  `<span>
-    <!-- 书写  作用域 slot -->
-
-    <!-- 书写 -->
-  </span>`
-})
-Vue.component('slot-d', {
-
-  template: `
-  <span>
-    <!-- 书写 动态插槽名-->
-
-    <!-- 书写 -->
-  </span>`
-})
-Vue.component('slot-e', {
-  template: `
+  })
+  Vue.component('slot-c', {
+    template: `
   <span>
     <!-- 书写 插槽名缩写 -->
-
+    {% if isAnswer %}
+    <slot name='slot-c'></slot>
+    {% endif %}
     <!-- 书写 -->
   </span>`
-})
-Vue.component('slot-f', {
-  template:`
+  })
+  Vue.component('slot-d', {
+
+    template: `
+<span>
+  <!-- 书写 动态插槽名-->
+  {% if isAnswer %}
+  <slot name='slot-d'></slot>
+  {% endif %}
+  <!-- 书写 -->
+</span>`
+  })
+  Vue.component('slot-e', {
+    data() {
+      return {
+        vueName: 'vueName'
+      }
+    },
+    template: `<span>
+    <!-- 书写  作用域 slot -->
+      {% if isAnswer %}
+      <slot name='slot-e' :vueName='vueName'></slot>
+      <slot name='slot-e-2' :vueName='vueName'></slot>
+      {% endif %}
+    <!-- 书写 -->
+  </span>`
+  })
+  Vue.component('slot-f', {
+    data() {
+      return {
+        data: 'data-1'
+      }
+    },
+    template: `
   <span>
-    <!-- 书写 作用域插槽 允许父级组件自定义部分布局-->
-
+    <!-- 书写 独占默认插槽 -->
+    {% if isAnswer %}
+    <slot name='slot-f' :data='data'></slot>
+    {% endif %}
     <!-- 书写 -->
   </span>`
-})
-new Vue({
-  el:'#demo',
-  data:{
+  })
 
-  },
-})
-
+  Vue.component('slot-g', {
+    props: ['content'],
+    template: `
+    <!-- 书写  作用域插槽 允许父级组件自定义部分布局-->
+    {% if isAnswer %}
+    <ul>
+      <li v-for='todo in content' v-bind:key='todo.id'>
+      {todo.title}
+      <slot name='slot-g' :age="todo.age">你好</slot>
+      </li>
+  </ul>
+  <!-- 书写 -->
+  {% endif %}
+  `
+  })
+  new Vue({
+    el: '#demo',
+    data: {
+      dynamicslotname: 'slot-d',
+      content: [{
+          id: 1,
+          title: "大毛",
+          age: 18
+        },
+        {
+          id: 2,
+          title: "二毛",
+          age: 20
+        },
+      ]
+    },
+  })
 </script>

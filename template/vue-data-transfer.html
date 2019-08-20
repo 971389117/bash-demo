@@ -2,50 +2,68 @@
 
 <div id="demo">
     <!-- 1.访问根组件数据,将根组件当做数据中转站 -->
+    {% if isAnswer %}
     <root-a ref='bb'></root-a>
+    {% endif %}
     <!-- 2.访问父组件 -->
+    {% if isAnswer %}
     <parent-a></parent-a>
+    {% endif %}
     <!-- 3.访问任意组件 -->
+    {% if isAnswer %}
     <ref-a></ref-a>
-    <!-- 2.依赖注入:巴士 -->
+    {% endif %}
+    <!-- 4.依赖注入:巴士 -->
+    {% if isAnswer %}
     <inject-a></inject-a>
+    {% endif %}
 </div>
 
 <script>
     Vue.component('root-a', {
+        {% if isAnswer %}
         mounted() {
             console.log(this.$root)
             console.log(this.$root.foo)
             console.log(this.$root.bar)
             console.log(this.$root.baz)
         },
+         {% endif %}
         template: `<span></span>`,
 
     })
     Vue.component('parent-a', {
+        {% if isAnswer %}
         mounted() {
             console.log('$parent --- ', this.$parent)
         },
-        template: `<span></span>`,
-
-    })
-    Vue.component('inject-a', {
-        mounted() {
-            console.log('$parent --- ', this.$parent)
-        },
-        inject: ['foo'],
+        {% endif %}
         template: `<span></span>`,
 
     })
     Vue.component('ref-a', {
+        {% if isAnswer %}
         mounted() {
             console.log(this.$refs)
         },
         inject: ['foo'],
+         {% endif %}
         template: `<span><a ref="ref-a"> 我爱你老鼠</a></span>`,
     })
+    Vue.component('inject-a', {
+        {% if isAnswer %}
+        mounted() {
+            console.log('$parent --- ', this.$parent)
+        },
+        inject: ['foo'],
+        {% endif %}
+        template: `<span></span>`,
+
+    })
+
     new Vue({
         el: '#demo',
+        {% if isAnswer %}
         data: {
             foo: 1,
             eventBus: new Vue()
@@ -72,5 +90,6 @@
         mounted() {
             console.log(this.$refs)
         }
+        {% endif %}
     })
 </script>

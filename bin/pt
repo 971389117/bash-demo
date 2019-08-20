@@ -2,22 +2,52 @@
 from jinja2 import Template
 import os
 import sys
+import shutil
+# ---------目的------------
+# 方便复习
+# ---------设计------------
+# 1.自动创建问题和答案
+# 2.自动打开编辑器
+# 3.编辑完后可以自动删除所有文件
+# ------------------------
+# 1.依次获取模板内容
+# 2.写入模板内容
+# 3.打开文件
+# 4.删除文件
+# ------------------------
 
-# 获得命令行参数,进行目录解析
-# 读取模板目录文件,输出到当前目录文件
-# jinja2 模板引擎
-
-fileName=sys.argv[1]
-isAnswer=(True,False)[len(sys.argv)>2]
-
-currentPath=os.getcwd()
 TEMPLATE_BASE='/Users/zhengxingxing/DeskTop/git.my/0-bash-demo/template'
-templateFilePath=os.path.join(TEMPLATE_BASE,fileName)
-newFilePath=os.path.join(currentPath,fileName)
+EXPORT_BASE_PATH='/Users/zhengxingxing/DeskTop/git.my'
+EXPORT_PATH=os.path.join(EXPORT_BASE_PATH,'practice')
 
-with open(templateFilePath,'r') as f:
-    template = Template(f.read())
-    p=template.render(isAnswer=isAnswer)
-    print(p)
-with open(newFilePath,'w') as f:
-    f.write(p)
+def cratePractice():
+    if not os.path.exists(EXPORT_PATH):
+        os.mkdir(EXPORT_PATH)
+    fileList=os.listdir(TEMPLATE_BASE)
+    for _file in fileList:
+        templateFilePath=os.path.join(TEMPLATE_BASE,_file)
+        with open(templateFilePath,'r') as fr:
+            exportQuestionFilePath=os.path.join(EXPORT_PATH,_file)
+            exportAnswerFilePath=os.path.join(EXPORT_PATH,_file.replace('.html','_answer.html'))
+            p=fr.read()
+            with open(exportQuestionFilePath,'w') as fw:
+                template=Template(p)
+                question=template.render(isAnswer=False)
+                fw.write(question)
+            with open(exportAnswerFilePath,'w') as fw:
+                template=Template(p)
+                answer=template.render(isAnswer=True)
+                fw.write(answer)
+    os.system('code '+EXPORT_PATH)
+
+def deletePractice():
+    shutil.rmtree(EXPORT_PATH)
+
+if __name__ == "__main__":
+    argv=sys.argv
+    if '-c' in argv:
+        cratePractice()
+    elif '-d' in argv:
+        deletePractice()
+    else:
+        print('请输入参数 -c 创建 -d 删除;而你输入的参数是:',sys.argv[1:])
